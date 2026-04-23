@@ -1,382 +1,422 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="mediaqueries.css" />
-  </head>
-  <body>
-    <nav id="desktop-nav">
-      <div class="logo">John Doe</div>
-      <div>
-        <ul class="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </div>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ankit | Java Backend Engineer</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Night Mode (Default) */
+            --bg: #010103;
+            --card-bg: #161c2d;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --primary: #3b82f6;
+            --accent: #fbbf24;
+            --code-keyword: #c678dd;
+            --code-class: #61afef;
+            --code-string: #98c379;
+            --border: rgba(255, 255, 255, 0.08);
+            --nav-bg: rgba(11, 15, 26, 0.8);
+        }
+
+        [data-theme="light"] {
+            /* Day Mode */
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-dim: #64748b;
+            --primary: #2563eb;
+            --accent: #d97706;
+            --border: rgba(0, 0, 0, 0.1);
+            --nav-bg: rgba(248, 250, 252, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* --- Ambient Background --- */
+        .ambient-light {
+            position: fixed;
+            top: -10%; right: -10%;
+            width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 1.2rem; color: var(--text-main); }
+        .bracket { color: var(--primary); }
+
+        .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+
+        .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        .theme-toggle {
+            background: none; border: 1px solid var(--border);
+            color: var(--accent); cursor: pointer;
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; transition: 0.3s;
+        }
+        .theme-toggle:hover { background: var(--border); }
+
+        /* Mobile Menu Button */
+        .menu-toggle { display: none; cursor: pointer; flex-direction: column; gap: 5px; z-index: 2100; }
+        .menu-toggle span { width: 25px; height: 3px; background: var(--text-main); border-radius: 5px; transition: 0.3s; }
+
+        /* --- Hero Section --- */
+        .hero { padding: 6rem 0; min-height: 85vh; display: flex; align-items: center; }
+        .hero-inner { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center; }
+
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 14px; background: rgba(251, 191, 36, 0.1);
+            color: var(--accent); border-radius: 50px;
+            font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem;
+        }
+        .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: blink 1.5s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; font-weight: 800; margin-bottom: 1.5rem; }
+        .gradient-text { background: linear-gradient(90deg, var(--primary), #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-desc { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 2.5rem; max-width: 500px; }
+        .hero-btns { display: flex; gap: 1rem; }
+
+        .btn { padding: 0.8rem 2rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: 0.3s; text-align: center; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-outline { border: 1px solid var(--border); color: var(--text-main); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2); }
+
+        /* --- Code Card --- */
+        .hero-code-card { background: #011627; border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.4); border: 1px solid var(--border); overflow: hidden; }
+        .card-header { background: #0b1521; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+        .dots { display: flex; gap: 6px; }
+        .dots span { width: 10px; height: 10px; border-radius: 50%; }
+        .dot-r { background: #ff5f56; } .dot-y { background: #ffbd2e; } .dot-g { background: #27c93f; }
+        .tab { font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--text-dim); }
+        .code-body { padding: 2rem; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.7; overflow-x: auto; color: #d6deeb; }
+        .k { color: var(--code-keyword); } .n { color: var(--code-class); } .s { color: var(--code-string); } .c { color: var(--text-dim); font-style: italic; }
+
+        /* --- About Section --- */
+        .about { padding: 8rem 0; }
+        .about-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; display: grid; grid-template-columns: 1.5fr 1fr; overflow: hidden; }
+        .about-text { padding: 4rem; }
+        .section-label { font-family: 'Fira Code', monospace; color: var(--primary); font-size: 1rem; margin-bottom: 1rem; display: block; }
+        .about-text h3 { font-size: 2rem; margin-bottom: 1.5rem; }
+        .human-traits { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+        .trait { background: rgba(255,255,255,0.05); padding: 8px 16px; border-radius: 50px; font-size: 0.9rem; border: 1px solid var(--border); }
+        .image-wrapper { background: #1e293b; display: flex; align-items: center; justify-content: center; min-height: 300px; }
+
+        /* --- Skills --- */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+        .skill-category { background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; }
+        .skill-category:hover { border-color: var(--primary); }
+        .skill-category h4 { margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; color: var(--primary); }
+
+        /* --- Projects --- */
+        .project-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .project-card-v2 { background: var(--card-bg); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border); transition: 0.4s; }
+        .project-card-v2:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .p-icon { font-size: 2rem; color: var(--accent); margin-bottom: 1.5rem; }
+        .p-tags { display: flex; gap: 0.5rem; margin-top: 1.5rem; }
+        .p-tags span { font-size: 0.7rem; background: rgba(59,130,246,0.1); color: var(--primary); padding: 4px 10px; border-radius: 4px; font-weight: 700; }
+
+        /* --- Contact --- */
+        .cta-box { background: linear-gradient(135deg, var(--primary), #1e40af); padding: 5rem 2rem; border-radius: 32px; text-align: center; margin: 4rem 0; color: white; }
+        .cta-box h2 { font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1rem; }
+        .cta-btns { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; margin-top: 2rem; }
+
+        footer { padding: 4rem 0; text-align: center; color: var(--text-dim); border-top: 1px solid var(--border); }
+
+        /* --- Animations --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- RESPONSIVE LOGIC --- */
+        @media (max-width: 968px) {
+            .hero-inner, .about-card { grid-template-columns: 1fr; }
+            .hero-inner { text-align: center; }
+            .hero-btns { justify-content: center; }
+            .hero-desc { margin: 0 auto 2.5rem auto; }
+            .status-badge { justify-content: center; }
+            .about-text { padding: 2rem; }
+            .image-wrapper { order: -1; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 80%; height: 100vh;
+                background: var(--bg); flex-direction: column; justify-content: center;
+                transition: 0.4s; box-shadow: -10px 0 30px rgba(0,0,0,0.5); z-index: 2000;
+            }
+            .nav-links.show { right: 0; }
+            .nav-links a { font-size: 1.5rem; }
+
+            /* Hamburger Animation */
+            .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .menu-toggle.open span:nth-child(2) { opacity: 0; }
+            .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-light"></div>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <span class="bracket">{</span> ankit <span class="bracket">}</span>
+            </div>
+            
+            <div class="nav-right">
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">.start()</a></li>
+                    <li><a href="#about">.bio()</a></li>
+                    <li><a href="#skills">.tools()</a></li>
+                    <li><a href="#projects">.work()</a></li>
+                    <li><a href="#contact" class="nav-cta">.connect()</a></li>
+                </ul>
+
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <div class="menu-toggle" id="menuToggle">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
     </nav>
-    <nav id="hamburger-nav">
-      <div class="logo">John Doe</div>
-      <div class="hamburger-menu">
-        <div class="hamburger-icon" onclick="toggleMenu()">
-          <span></span>
-          <span></span>
-          <span></span>
+
+    <!-- Hero -->
+    <section id="home" class="hero container">
+        <div class="hero-inner">
+            <div class="hero-content reveal">
+                <div class="status-badge"><span class="dot"></span> Immediate Joiner</div>
+                <h1>Architecting <br><span class="gradient-text">Backend Excellence.</span></h1>
+                <p class="hero-desc">Java Developer focused on building high-performance systems with clean code and scalable architecture.</p>
+                <div class="hero-btns">
+                    <a href="Ankit_Resume.pdf" download class="btn btn-primary">Download CV</a>
+                    <a href="#contact" class="btn btn-outline">Hire Ankit</a>
+                </div>
+            </div>
+
+            <div class="hero-code-card reveal">
+                <div class="card-header">
+                    <div class="dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+                    <div class="tab">Developer.java</div>
+                </div>
+                <div class="code-body">
+                    <pre><code><span class="k">package</span> <span class="n">me.ankit.core</span>;
+
+<span class="k">public class</span> <span class="n">Developer</span> {
+    <span class="k">private</span> <span class="n">String</span> <span class="s">name</span> = <span class="s">"Ankit"</span>;
+    <span class="k">private</span> <span class="n">String[]</span> <span class="s">stack</span> = {<span class="s">"Java"</span>, <span class="s">"Spring"</span>, <span class="s">"SQL"</span>};
+    
+    <span class="k">public void</span> <span class="n">goal</span>() {
+        <span class="k">while</span>(<span class="n">isCoding</span>) {
+            <span class="n">solve</span>();
+            <span class="n">optimize</span>();
+        }
+    }
+}</code></pre>
+                </div>
+            </div>
         </div>
-        <div class="menu-links">
-          <li><a href="#about" onclick="toggleMenu()">About</a></li>
-          <li><a href="#experience" onclick="toggleMenu()">Experience</a></li>
-          <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>
-          <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
-        </div>
-      </div>
-    </nav>
-    <section id="profile">
-      <div class="section__pic-container">
-        <img src="./assets/profile-pic.png" alt="John Doe profile picture" />
-      </div>
-      <div class="section__text">
-        <p class="section__text__p1">Hello, I'm</p>
-        <h1 class="title">John Doe</h1>
-        <p class="section__text__p2">Frontend Developer</p>
-        <div class="btn-container">
-          <button
-            class="btn btn-color-2"
-            onclick="window.open('./assets/resume-example.pdf')"
-          >
-            Download CV
-          </button>
-          <button class="btn btn-color-1" onclick="location.href='./#contact'">
-            Contact Info
-          </button>
-        </div>
-        <div id="socials-container">
-          <img
-            src="./assets/linkedin.png"
-            alt="My LinkedIn profile"
-            class="icon"
-            onclick="location.href='https://linkedin.com/'"
-          />
-          <img
-            src="./assets/github.png"
-            alt="My Github profile"
-            class="icon"
-            onclick="location.href='https://github.com/'"
-          />
-        </div>
-      </div>
     </section>
-    <section id="about">
-      <p class="section__text__p1">Get To Know More</p>
-      <h1 class="title">About Me</h1>
-      <div class="section-container">
-        <div class="section__pic-container">
-          <img
-            src="./assets/about-pic.png"
-            alt="Profile picture"
-            class="about-pic"
-          />
-        </div>
-        <div class="about-details-container">
-          <div class="about-containers">
-            <div class="details-container">
-              <img
-                src="./assets/experience.png"
-                alt="Experience icon"
-                class="icon"
-              />
-              <h3>Experience</h3>
-              <p>2+ years <br />Frontend Development</p>
+
+    <!-- About -->
+    <section id="about" class="about container">
+        <div class="about-card reveal">
+            <div class="about-text">
+                <span class="section-label">01. Human.profile()</span>
+                <h3>Passionate about logic, <br>driven by results.</h3>
+                <p>As a fresh Computer Science graduate, I've dedicated myself to mastering the Java ecosystem. I love the challenge of designing efficient database schemas and securing RESTful endpoints.</p>
+                <div class="human-traits">
+                    <div class="trait">☕ Caffeine-powered</div>
+                    <div class="trait">🧩 Logic seeker</div>
+                    <div class="trait">📚 Constant Learner</div>
+                </div>
             </div>
-            <div class="details-container">
-              <img
-                src="./assets/education.png"
-                alt="Education icon"
-                class="icon"
-              />
-              <h3>Education</h3>
-              <p>B.Sc. Bachelors Degree<br />M.Sc. Masters Degree</p>
+            <div class="image-wrapper">
+                <!-- Replace with your photo URL -->
+                 
+                 <img src="profile.png" alt="profile img ankit" style="border-radius: 0% 0% 10% 1%; width: 100%;">
+                
             </div>
-          </div>
-          <div class="text-container">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis
-              reprehenderit et laborum, rem, dolore eum quod voluptate
-              exercitationem nobis, nihil esse debitis maxime facere minus sint
-              delectus velit in eos quo officiis explicabo deleniti dignissimos.
-              Eligendi illum libero dolorum cum laboriosam corrupti quidem,
-              reiciendis ea magnam? Nulla, impedit fuga!
-            </p>
-          </div>
         </div>
-      </div>
-      <img
-        src="./assets/arrow.png"
-        alt="Arrow icon"
-        class="icon arrow"
-        onclick="location.href='./#experience'"
-      />
     </section>
-    <section id="experience">
-      <p class="section__text__p1">Explore My</p>
-      <h1 class="title">Experience</h1>
-      <div class="experience-details-container">
-        <div class="about-containers">
-          <div class="details-container">
-            <h2 class="experience-sub-title">Frontend Development</h2>
-            <div class="article-container">
-              <article>
-                <img
-                  src="./assets/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>HTML</h3>
-                  <p>Experienced</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./assets/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>CSS</h3>
-                  <p>Experienced</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./assets/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>SASS</h3>
-                  <p>Intermediate</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./assets/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>JavaScript</h3>
-                  <p>Basic</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./assets/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>TypeScript</h3>
-                  <p>Basic</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./assets/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>Material UI</h3>
-                  <p>Intermediate</p>
-                </div>
-              </article>
+
+    <!-- Skills -->
+    <section id="skills" class="skills container">
+        <span class="section-label" style="text-align: center;">02. Technical.skills()</span>
+        <div class="skills-grid">
+            <div class="skill-category reveal">
+                <h4><i class="fab fa-java"></i> Languages</h4>
+                <p>Java (8/11/17), SQL, Python</p>
             </div>
-          </div>
-          <div class="details-container">
-            <h2 class="experience-sub-title">Frontend Development</h2>
-            <div class="article-container">
-              <article>
-                <img
-                  src="./assets/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>PostgreSQL</h3>
-                  <p>Basic</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./assets/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>Node JS</h3>
-                  <p>Intermediate</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./assets/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>Express JS</h3>
-                  <p>Intermediate</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./assets/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>Git</h3>
-                  <p>Intermediate</p>
-                </div>
-              </article>
+            <div class="skill-category reveal" style="border-color: var(--primary);">
+                <h4><i class="fas fa-leaf"></i> Frameworks</h4>
+                <p>Spring Boot, Hibernate, Spring Security</p>
             </div>
-          </div>
+            <div class="skill-category reveal">
+                <h4><i class="fas fa-database"></i> Databases</h4>
+                <p>MySQL, PostgreSQL, Redis</p>
+            </div>
+            <div class="skill-category reveal">
+                <h4><i class="fas fa-tools"></i> Tools</h4>
+                <p>Git, Docker, Maven, Postman</p>
+            </div>
         </div>
-      </div>
-      <img
-        src="./assets/arrow.png"
-        alt="Arrow icon"
-        class="icon arrow"
-        onclick="location.href='./#projects'"
-      />
     </section>
-    <section id="projects">
-      <p class="section__text__p1">Browse My Recent</p>
-      <h1 class="title">Projects</h1>
-      <div class="experience-details-container">
-        <div class="about-containers">
-          <div class="details-container color-container">
-            <div class="article-container">
-              <img
-                src="./assets/project-1.png"
-                alt="Project 1"
-                class="project-img"
-              />
+
+    <!-- Projects -->
+    <section id="projects" class="projects container">
+        <span class="section-label">03. Project.repository()</span>
+        <div class="project-columns">
+            <div class="project-card-v2 reveal">
+                <div class="p-icon"><i class="fas fa-server"></i></div>
+                <h3>E-Wallet Microservice</h3>
+                <p>A distributed system handling transactions with ACID compliance and Spring Cloud.</p>
+                <div class="p-tags"><span>Java</span><span>Spring Boot</span><span>MySQL</span></div>
             </div>
-            <h2 class="experience-sub-title project-title">Project One</h2>
-            <div class="btn-container">
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Github
-              </button>
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Live Demo
-              </button>
+            <div class="project-card-v2 reveal">
+                <div class="p-icon"><i class="fas fa-network-wired"></i></div>
+                <h3>Distributed Task Manager</h3>
+                <p>Thread-safe task scheduler implementation using Java Concurrency API.</p>
+                <div class="p-tags"><span>Multithreading</span><span>Data Structures</span></div>
             </div>
-          </div>
-          <div class="details-container color-container">
-            <div class="article-container">
-              <img
-                src="./assets/project-2.png"
-                alt="Project 2"
-                class="project-img"
-              />
-            </div>
-            <h2 class="experience-sub-title project-title">Project Two</h2>
-            <div class="btn-container">
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Github
-              </button>
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Live Demo
-              </button>
-            </div>
-          </div>
-          <div class="details-container color-container">
-            <div class="article-container">
-              <img
-                src="./assets/project-3.png"
-                alt="Project 3"
-                class="project-img"
-              />
-            </div>
-            <h2 class="experience-sub-title project-title">Project Three</h2>
-            <div class="btn-container">
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Github
-              </button>
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Live Demo
-              </button>
-            </div>
-          </div>
         </div>
-      </div>
-      <img
-        src="./assets/arrow.png"
-        alt="Arrow icon"
-        class="icon arrow"
-        onclick="location.href='./#contact'"
-      />
     </section>
-    <section id="contact">
-      <p class="section__text__p1">Get in Touch</p>
-      <h1 class="title">Contact Me</h1>
-      <div class="contact-info-upper-container">
-        <div class="contact-info-container">
-          <img
-            src="./assets/email.png"
-            alt="Email icon"
-            class="icon contact-icon email-icon"
-          />
-          <p><a href="mailto:examplemail@gmail.com">Example@gmail.com</a></p>
+
+    <!-- Contact -->
+    <section id="contact" class="contact container">
+        <div class="cta-box reveal">
+            <h2>Ready to hire a <br><span>Backend specialist?</span></h2>
+            <p>I'm available for Junior/Fresher Java roles immediately.</p>
+            <div class="cta-btns">
+                <a href="mailto:your.email@example.com" class="btn btn-primary" style="background: white; color: var(--primary);">ankit871331@gmail.com</a>
+                <div style="display:flex; gap: 20px; font-size: 1.5rem;">
+                    <a href="https://github.com/Ankit871331" style="color:white;"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/ankit-0b907a2a5/" style="color:white;"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
         </div>
-        <div class="contact-info-container">
-          <img
-            src="./assets/linkedin.png"
-            alt="LinkedIn icon"
-            class="icon contact-icon"
-          />
-          <p><a href="https://www.linkedin.com">LinkedIn</a></p>
-        </div>
-      </div>
     </section>
+
     <footer>
-      <nav>
-        <div class="nav-links-container">
-          <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div>
-      </nav>
-      <p>Copyright &#169; 2023 John Doe. All Rights Reserved.</p>
+        <p>&copy; 2026 Ankit | Compiled with Love in Java Environment</p>
     </footer>
-    <script src="script.js"></script>
-  </body>
-</html>
+
+    <!-- Scripts -->
+    <script>
+        // --- 1. Theme Toggle Logic ---
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            themeIcon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+
+        // --- 2. Mobile Menu Logic ---
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const links = document.querySelectorAll('.nav-links a');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+            menuToggle.classList.toggle('open');
+        });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('show');
+                menuToggle.classList.remove('open');
+            });
+        });
+
+        // --- 3. Scroll Reveal Logic ---
+        const reveal = () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', reveal);
+        reveal(); // Initial check
+
+        // --- 4. Active Nav Highlight ---
+        window.addEventListener('scroll', () => {
+            let current = "";
+            const sections = document.querySelectorAll("section");
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute("id");
+                }
+            });
+            links.forEach((a) => {
+                a.classList.remove("active");
+                if (a.getAttribute("href") === `#${current}`) {
+                    a.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
