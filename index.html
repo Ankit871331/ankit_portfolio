@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ankit | Java Backend Engineer</title>
     
     <!-- Fonts & Icons -->
@@ -11,10 +11,9 @@
 
     <style>
         :root {
-            /* Night Mode (Default) */
             --bg: #010103;
             --card-bg: #161c2d;
-            --text-main: #f8fafc;
+            --text-main: #fbbf24;
             --text-dim: #94a3b8;
             --primary: #3b82f6;
             --accent: #fbbf24;
@@ -26,18 +25,24 @@
         }
 
         [data-theme="light"] {
-            /* Day Mode */
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
+            --bg: #ffffff;
+            --card-bg: #000000;
+            --text-main: #fbbf24;
             --text-dim: #64748b;
             --primary: #2563eb;
             --accent: #d97706;
             --border: rgba(0, 0, 0, 0.1);
-            --nav-bg: rgba(248, 250, 252, 0.8);
+            --nav-bg: rgb(0, 0, 0);
         }
 
+        /* Prevent Horizontal Scroll Globally */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            overflow-x: hidden; 
+            width: 100%;
+            position: relative;
+        }
+        
         html { scroll-behavior: smooth; }
         
         body {
@@ -45,13 +50,17 @@
             background-color: var(--bg);
             color: var(--text-main);
             line-height: 1.6;
-            overflow-x: hidden;
             transition: background 0.3s ease;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .container { 
+            width: 100%;
+            max-width: 1100px; 
+            margin: 0 auto; 
+            padding: 0 1.5rem;
+             
+        }
 
-        /* --- Ambient Background --- */
         .ambient-light {
             position: fixed;
             top: -10%; right: -10%;
@@ -62,6 +71,7 @@
 
         /* --- Navbar --- */
         .navbar {
+            width: 100%;
             padding: 1rem 0;
             position: sticky;
             top: 0;
@@ -72,18 +82,16 @@
         }
 
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
-        
         .logo { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 1.2rem; color: var(--text-main); }
         .bracket { color: var(--primary); }
+        .nav-right { display: flex; align-items: center; gap: 1rem; }
 
-        .nav-right { display: flex; align-items: center; gap: 1.5rem; }
-
-        .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
+        .nav-links { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
         .nav-links a {
             text-decoration: none;
             color: var(--text-dim);
             font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: 0.3s;
         }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); }
@@ -91,117 +99,136 @@
         .theme-toggle {
             background: none; border: 1px solid var(--border);
             color: var(--accent); cursor: pointer;
-            width: 40px; height: 40px; border-radius: 10px;
+            width: 38px; height: 38px; border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; transition: 0.3s;
+            font-size: 1rem; transition: 0.3s;
+            z-index: 2101;
         }
-        .theme-toggle:hover { background: var(--border); }
 
-        /* Mobile Menu Button */
-        .menu-toggle { display: none; cursor: pointer; flex-direction: column; gap: 5px; z-index: 2100; }
-        .menu-toggle span { width: 25px; height: 3px; background: var(--text-main); border-radius: 5px; transition: 0.3s; }
+        .menu-toggle { 
+            display: none; cursor: pointer; flex-direction: column; 
+            gap: 5px; z-index: 2101; padding: 5px;
+        }
+        .menu-toggle span { width: 25px; height: 2px; background: var(--text-main); border-radius: 5px; transition: 0.3s; }
 
         /* --- Hero Section --- */
-        .hero { padding: 6rem 0; min-height: 85vh; display: flex; align-items: center; }
-        .hero-inner { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center; }
+        section { padding: 5rem 0; }
+        .hero { min-height: 85vh; display: flex; align-items: center; }
+        .hero-inner { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; }
 
         .status-badge {
             display: inline-flex; align-items: center; gap: 8px;
             padding: 6px 14px; background: rgba(251, 191, 36, 0.1);
             color: var(--accent); border-radius: 50px;
-            font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem;
+            font-size: 0.75rem; font-weight: 600; margin-bottom: 1.5rem;
         }
         .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: blink 1.5s infinite; }
         @keyframes blink { 50% { opacity: 0.3; } }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; font-weight: 800; margin-bottom: 1.5rem; }
-        .gradient-text { background: linear-gradient(90deg, var(--primary), #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-desc { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 2.5rem; max-width: 500px; }
-        .hero-btns { display: flex; gap: 1rem; }
+        h1 { font-size: clamp(2.2rem, 8vw, 3.8rem); line-height: 1.1; font-weight: 800; margin-bottom: 1.5rem; }
+        .gradient-text { background: linear-gradient(90deg, var(--code-string), #316605); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-desc { font-size: 1.1rem; color: var(--code-keyword); margin-bottom: 2rem; max-width: 500px; }
+        .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-        .btn { padding: 0.8rem 2rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: 0.3s; text-align: center; }
-        .btn-primary { background: var(--primary); color: white; }
+        .btn { padding: 0.8rem 1.8rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: 0.3s; text-align: center; font-size: 0.9rem;}
+        .btn-primary { background: var(--primary); color: white; border: none; }
         .btn-outline { border: 1px solid var(--border); color: var(--text-main); }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(59,130,246,0.15); }
 
-        /* --- Code Card --- */
-        .hero-code-card { background: #011627; border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.4); border: 1px solid var(--border); overflow: hidden; }
-        .card-header { background: #0b1521; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+        .hero-code-card { background: #011627; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+        .card-header { background: #0b1521; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; }
         .dots { display: flex; gap: 6px; }
-        .dots span { width: 10px; height: 10px; border-radius: 50%; }
+        .dots span { width: 8px; height: 8px; border-radius: 50%; }
         .dot-r { background: #ff5f56; } .dot-y { background: #ffbd2e; } .dot-g { background: #27c93f; }
-        .tab { font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--text-dim); }
-        .code-body { padding: 2rem; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.7; overflow-x: auto; color: #d6deeb; }
-        .k { color: var(--code-keyword); } .n { color: var(--code-class); } .s { color: var(--code-string); } .c { color: var(--text-dim); font-style: italic; }
+        .code-body { padding: 1.5rem; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.6; overflow-x: auto; color: #d6deeb; }
+        .k { color: var(--code-keyword); } .n { color: var(--code-class); } .s { color: var(--code-string); }
 
         /* --- About Section --- */
-        .about { padding: 8rem 0; }
+        .section-label { font-family: 'Fira Code', monospace; color: var(--primary); font-size: 0.9rem; margin-bottom: 1rem; display: block; }
         .about-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; display: grid; grid-template-columns: 1.5fr 1fr; overflow: hidden; }
-        .about-text { padding: 4rem; }
-        .section-label { font-family: 'Fira Code', monospace; color: var(--primary); font-size: 1rem; margin-bottom: 1rem; display: block; }
-        .about-text h3 { font-size: 2rem; margin-bottom: 1.5rem; }
-        .human-traits { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
-        .trait { background: rgba(255,255,255,0.05); padding: 8px 16px; border-radius: 50px; font-size: 0.9rem; border: 1px solid var(--border); }
-        .image-wrapper { background: #1e293b; display: flex; align-items: center; justify-content: center; min-height: 300px; }
+        .about-text { padding: 3rem; }
+        .about-text h3 { font-size: 1.8rem; margin-bottom: 1.5rem; }
+        .trait { color: var(--code-keyword); background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 50px; font-size: 0.8rem; border: 1px solid var(--code-keyword); display: inline-block; margin: 5px; }
+        .image-wrapper { background: #1e293b; min-height: 300px; }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- Experience --- */
+        .experience-box { background: var(--card-bg); border-radius: 24px; border: 1px solid var(--border); padding: 2.5rem; }
+        .exp-item { display: grid; grid-template-columns: 200px 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+        .exp-date { font-family: 'Fira Code', monospace; color: var(--primary); font-size: 0.9rem; font-weight: 600; }
+        .exp-content h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .exp-content ul { list-style: none; color: var(--text-dim); font-size: 0.95rem; margin-top: 1rem; }
+        .exp-content li { margin-bottom: 8px; padding-left: 20px; position: relative; }
+        .exp-content li::before { content: "→"; position: absolute; left: 0; color: var(--primary); }
 
         /* --- Skills --- */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
-        .skill-category { background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; }
-        .skill-category:hover { border-color: var(--primary); }
-        .skill-category h4 { margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; color: var(--primary); }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+        .skill-category { background: var(--card-bg); padding: 1.8rem; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; }
+        .skill-category:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .skill-category h4 { margin-bottom: 1rem; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
 
-        /* --- Projects --- */
-        .project-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-top: 3rem; }
-        .project-card-v2 { background: var(--card-bg); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border); transition: 0.4s; }
-        .project-card-v2:hover { transform: translateY(-10px); border-color: var(--primary); }
-        .p-icon { font-size: 2rem; color: var(--accent); margin-bottom: 1.5rem; }
-        .p-tags { display: flex; gap: 0.5rem; margin-top: 1.5rem; }
-        .p-tags span { font-size: 0.7rem; background: rgba(59,130,246,0.1); color: var(--primary); padding: 4px 10px; border-radius: 4px; font-weight: 700; }
+        /* --- Work / Projects Section --- */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .project-card { 
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; 
+            padding: 2rem; display: flex; flex-direction: column; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .project-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); }
+        .p-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .p-icon-box { width: 45px; height: 45px; background: rgba(59, 130, 246, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.3rem; }
+        .p-links a { color: var(--text-dim); font-size: 1.2rem; margin-left: 10px; transition: 0.3s; }
+        .p-links a:hover { color: var(--accent); }
+        .project-card h3 { font-size: 1.3rem; margin-bottom: 0.8rem; }
+        .project-card p { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1.2rem; }
+        .p-bullets { list-style: none; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--code-keyword); }
+        .p-bullets li { margin-bottom: 6px; padding-left: 18px; position: relative; }
+        .p-bullets li::before { content: "▹"; position: absolute; left: 0; color: var(--primary); }
+        .p-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+        .p-tags span { background: rgba(255,255,255,0.05); color: var(--text-dim); padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-family: 'Fira Code', monospace; border: 1px solid var(--border); }
 
         /* --- Contact --- */
-        .cta-box { background: linear-gradient(135deg, var(--primary), #1e40af); padding: 5rem 2rem; border-radius: 32px; text-align: center; margin: 4rem 0; color: white; }
-        .cta-box h2 { font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1rem; }
-        .cta-btns { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; margin-top: 2rem; }
+        .cta-box { background: linear-gradient(135deg, var(--primary), #1e40af); padding: 4rem 2rem; border-radius: 32px; text-align: center; color: white; }
+        .cta-btns { display: flex; flex-direction: column; align-items: center; gap: 1.2rem; margin-top: 2rem; }
+        .social-row { display: flex; gap: 20px; font-size: 1.8rem; }
+        .social-row a { color: white; transition: 0.3s; }
+        .social-row a:hover { transform: scale(1.2); color: var(--accent); }
 
-        footer { padding: 4rem 0; text-align: center; color: var(--text-dim); border-top: 1px solid var(--border); }
-
-        /* --- Animations --- */
-        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        footer { padding: 3rem 0; text-align: center; color: var(--text-dim); font-size: 0.85rem; border-top: 1px solid var(--border); }
 
         /* --- RESPONSIVE LOGIC --- */
         @media (max-width: 968px) {
-            .hero-inner, .about-card { grid-template-columns: 1fr; }
+            .hero-inner, .about-card, .exp-item { grid-template-columns: 1fr; }
             .hero-inner { text-align: center; }
             .hero-btns { justify-content: center; }
-            .hero-desc { margin: 0 auto 2.5rem auto; }
-            .status-badge { justify-content: center; }
-            .about-text { padding: 2rem; }
+            .hero-desc { margin: 0 auto 2rem auto; }
             .image-wrapper { order: -1; }
+            .about-text { padding: 2rem; }
         }
 
         @media (max-width: 768px) {
             .menu-toggle { display: flex; }
             .nav-links {
-                position: fixed; top: 0; right: -100%; width: 80%; height: 100vh;
+                position: fixed; top: 0; right: 0; width: 100%; height: 100vh;
                 background: var(--bg); flex-direction: column; justify-content: center;
-                transition: 0.4s; box-shadow: -10px 0 30px rgba(0,0,0,0.5); z-index: 2000;
+                transform: translateX(100%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000;
             }
-            .nav-links.show { right: 0; }
+            .nav-links.show { transform: translateX(0); }
             .nav-links a { font-size: 1.5rem; }
-
-            /* Hamburger Animation */
-            .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .menu-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
             .menu-toggle.open span:nth-child(2) { opacity: 0; }
-            .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+            .menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
         }
+
+        /* Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
     <div class="ambient-light"></div>
 
-    <!-- Header -->
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
@@ -209,21 +236,22 @@
             </div>
             
             <div class="nav-right">
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="#home">.start()</a></li>
-                    <li><a href="#about">.bio()</a></li>
-                    <li><a href="#skills">.tools()</a></li>
-                    <li><a href="#projects">.work()</a></li>
-                    <li><a href="#contact" class="nav-cta">.connect()</a></li>
-                </ul>
-
-                <button class="theme-toggle" id="themeToggle">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
                     <i class="fas fa-moon"></i>
                 </button>
 
                 <div class="menu-toggle" id="menuToggle">
                     <span></span><span></span><span></span>
                 </div>
+
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">.start()</a></li>
+                    <li><a href="#about">.bio()</a></li>
+                    <li><a href="#experience">.exp()</a></li>
+                    <li><a href="#skills">.tools()</a></li>
+                    <li><a href="#projects">.work()</a></li>
+                    <li><a href="#contact">.connect()</a></li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -234,9 +262,9 @@
             <div class="hero-content reveal">
                 <div class="status-badge"><span class="dot"></span> Immediate Joiner</div>
                 <h1>Architecting <br><span class="gradient-text">Backend Excellence.</span></h1>
-                <p class="hero-desc">Java Developer focused on building high-performance systems with clean code and scalable architecture.</p>
+                <p class="hero-desc">Strong foundation in Java and Spring Boot with hands-on experience building REST APIs and optimizing backend performance.</p>
                 <div class="hero-btns">
-                    <a href="Ankit_Resume.pdf" download class="btn btn-primary">Download CV</a>
+                    <a href="#" class="btn btn-primary">Download CV</a>
                     <a href="#contact" class="btn btn-outline">Hire Ankit</a>
                 </div>
             </div>
@@ -244,21 +272,22 @@
             <div class="hero-code-card reveal">
                 <div class="card-header">
                     <div class="dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
-                    <div class="tab">Developer.java</div>
+                    <div style="font-size: 0.7rem; color: var(--text-dim);">Developer.java</div>
                 </div>
                 <div class="code-body">
-                    <pre><code><span class="k">package</span> <span class="n">me.ankit.core</span>;
+<pre><code><span class="k">package</span> <span class="n">me.ankit.core</span>;
 
 <span class="k">public class</span> <span class="n">Developer</span> {
-    <span class="k">private</span> <span class="n">String</span> <span class="s">name</span> = <span class="s">"Ankit"</span>;
-    <span class="k">private</span> <span class="n">String[]</span> <span class="s">stack</span> = {<span class="s">"Java"</span>, <span class="s">"Spring"</span>, <span class="s">"SQL"</span>};
+  <span class="k">private</span> <span class="n">String</span> <span class="s">name</span> = <span class="s">"Ankit"</span>;
+  <span class="k">private</span> <span class="n">String[]</span> <span class="s">stack</span> = {<span class="s">"Java"</span>, <span class="s">"Spring Boot"</span>, <span class="s">"SQL"</span>};
     
-    <span class="k">public void</span> <span class="n">goal</span>() {
-        <span class="k">while</span>(<span class="n">isCoding</span>) {
-            <span class="n">solve</span>();
-            <span class="n">optimize</span>();
-        }
+  <span class="k">public void</span> <span class="n">isLearning</span>() {
+    <span class="k">while</span>(<span class="n">isCoding</span>) {
+      <span class="n">buildProjects</span>();
+      <span class="n">solveProblems</span>();
+      <span class="n">optimizeCode</span>();
     }
+  }
 }</code></pre>
                 </div>
             </div>
@@ -266,91 +295,173 @@
     </section>
 
     <!-- About -->
-    <section id="about" class="about container">
+    <section id="about" class="container">
         <div class="about-card reveal">
             <div class="about-text">
                 <span class="section-label">01. Human.profile()</span>
-                <h3>Passionate about logic, <br>driven by results.</h3>
-                <p>As a fresh Computer Science graduate, I've dedicated myself to mastering the Java ecosystem. I love the challenge of designing efficient database schemas and securing RESTful endpoints.</p>
+                <h3>Passionate about backend <br>development and problem-solving.</h3>
+                <p style="color: var(--code-string);">
+                    Computer Science undergraduate with hands-on experience in Java and Spring Boot,
+focused on building RESTful APIs, optimizing database performance, and writing clean, maintainable code.
+</p>
                 <div class="human-traits">
                     <div class="trait">☕ Caffeine-powered</div>
-                    <div class="trait">🧩 Logic seeker</div>
-                    <div class="trait">📚 Constant Learner</div>
+                    <div class="trait">🧩 Problem solver</div>
+                    <div class="trait">📚 Continuous learner</div>
                 </div>
             </div>
             <div class="image-wrapper">
-                <!-- Replace with your photo URL -->
-                 
-                 <img src="profile.png" alt="profile img ankit" style="border-radius: 0% 0% 10% 1%; width: 100%;">
-                
+                 <img src="profile.png" alt="Ankit Profile">
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="container" style="margin-top: 4%;">
+        <div class="experience-box reveal">
+            <span class="section-label">02. Career.path()</span>
+            <div class="exp-item">
+                <div class="exp-date">JUNE 2023 — AUG 2023</div>
+                <div class="exp-content">
+                    <h3 >Backend Developer Intern</h3>
+                    <span style="color: var(--accent); font-weight: 600;">Tech Solutions Pvt. Ltd.</span>
+                    <ul style="color: var(--code-string);">
+                        <li>Optimized RESTful APIs using Spring Boot for scalability.</li>
+                        <li>Reduced query time by 30% via MySQL indexing and optimization.</li>
+                        <li>Collaborated on migrating services to microservices architecture.</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Skills -->
-    <section id="skills" class="skills container">
-        <span class="section-label" style="text-align: center;">02. Technical.skills()</span>
+    <section id="skills" class="container" style="margin-top: 4%;">
+        <span class="section-label">03. Technical.skills()</span>
         <div class="skills-grid">
             <div class="skill-category reveal">
                 <h4><i class="fab fa-java"></i> Languages</h4>
-                <p>Java (8/11/17), SQL, Python</p>
+                <p style="color: var(--code-string);">Java (8/11/17), SQL</p>
             </div>
-            <div class="skill-category reveal" style="border-color: var(--primary);">
+            <div class="skill-category reveal">
                 <h4><i class="fas fa-leaf"></i> Frameworks</h4>
-                <p>Spring Boot, Hibernate, Spring Security</p>
+                <p style="color: var(--code-string);">• Spring Boot (REST APIs, validation, error handling) 
+• Hibernate / JPA (ORM, query optimization)
+• Spring Security (basic authentication & JWT)</p>
             </div>
             <div class="skill-category reveal">
                 <h4><i class="fas fa-database"></i> Databases</h4>
-                <p>MySQL, PostgreSQL, Redis</p>
+                <p style="color: var(--code-string);"  >MySQL</p>
             </div>
             <div class="skill-category reveal">
                 <h4><i class="fas fa-tools"></i> Tools</h4>
-                <p>Git, Docker, Maven, Postman</p>
+                <p style="color: var(--code-string);">• Git (version control)
+• Docker (containerization basics)
+• Maven (build management)
+• Postman (API testing)</p>
             </div>
         </div>
     </section>
 
-    <!-- Projects -->
-    <section id="projects" class="projects container">
-        <span class="section-label">03. Project.repository()</span>
-        <div class="project-columns">
-            <div class="project-card-v2 reveal">
-                <div class="p-icon"><i class="fas fa-server"></i></div>
-                <h3>E-Wallet Microservice</h3>
-                <p>A distributed system handling transactions with ACID compliance and Spring Cloud.</p>
-                <div class="p-tags"><span>Java</span><span>Spring Boot</span><span>MySQL</span></div>
-            </div>
-            <div class="project-card-v2 reveal">
-                <div class="p-icon"><i class="fas fa-network-wired"></i></div>
-                <h3>Distributed Task Manager</h3>
-                <p>Thread-safe task scheduler implementation using Java Concurrency API.</p>
-                <div class="p-tags"><span>Multithreading</span><span>Data Structures</span></div>
-            </div>
-        </div>
-    </section>
+    <!-- Work / Projects Section -->
+    <section id="projects" class="container" style="margin-top: 4%;">
+        <span class="section-label">04. Selected.work()</span>
 
-    <!-- Contact -->
-    <section id="contact" class="contact container">
-        <div class="cta-box reveal">
-            <h2>Ready to hire a <br><span>Backend specialist?</span></h2>
-            <p>I'm available for Junior/Fresher Java roles immediately.</p>
-            <div class="cta-btns">
-                <a href="mailto:your.email@example.com" class="btn btn-primary" style="background: white; color: var(--primary);">ankit871331@gmail.com</a>
-                <div style="display:flex; gap: 20px; font-size: 1.5rem;">
-                    <a href="https://github.com/Ankit871331" style="color:white;"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/ankit-0b907a2a5/" style="color:white;"><i class="fab fa-linkedin"></i></a>
+        <div class="projects-grid">
+            
+            <!-- Project 1 -->
+            <div class="project-card reveal">
+                <div class="p-top">
+                    <div class="p-icon-box"><i class="fas fa-shopping-basket"></i></div>
+                    <div class="p-links">
+                        <a href="https://github.com/Ankit871331" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <h3>E-Commerce Microservices</h3>
+                <p style="color: var(--code-string);">A distributed backend system designed for high-availability retail operations.</p>
+                <ul class="p-bullets">
+                    <li>Built with <strong>Spring Cloud</strong> Gateway and Discovery.</li>
+                    <li>Centralized security using <strong>JWT Auth</strong>.</li>
+                    <li>Asynchronous processing via <strong>RabbitMQ</strong>.</li>
+                </ul>
+                <div class="p-tags">
+                    <span>Spring Boot</span>
+                    <span>Docker</span>
+                    <span>PostgreSQL</span>
+                    <span>Redis</span>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card reveal">
+                <div class="p-top">
+                    <div class="p-icon-box"><i class="fas fa-wallet"></i></div>
+                    <div class="p-links">
+                        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <h3>FinTech Wallet API</h3>
+                <p style="color: var(--code-string);">A secure banking API handling ACID-compliant transactions and user ledgers.</p>
+                <ul class="p-bullets">
+                    <li>Implemented <strong>Transactional Management</strong> for zero-error transfers.</li>
+                    <li>Automated testing with <strong>JUnit 5 & Mockito</strong>.</li>
+                    <li>Optimized DB performance with <strong>Hibernate Caching</strong>.</li>
+                </ul>
+                <div class="p-tags">
+                    <span>Java 17</span>
+                    <span>Spring Data JPA</span>
+                    <span>MySQL</span>
+                    <span>Maven</span>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card reveal">
+                <div class="p-top">
+                    <div class="p-icon-box"><i class="fas fa-microchip"></i></div>
+                    <div class="p-links">
+                        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <h3>Log Processor Engine</h3>
+                <p style="color: var(--code-string);">A core Java multithreaded application that parses massive log files in real-time.</p>
+                <ul class="p-bullets">
+                    <li>Utilized <strong>Java ExecutorService</strong> for concurrent tasks.</li>
+                    <li>Reduced processing time by 60% using <strong>Custom Buffers</strong>.</li>
+                    <li>Visualized metrics via a sleek RESTful dashboard.</li>
+                </ul>
+                <div class="p-tags">
+                    <span>Core Java</span>
+                    <span>Multithreading</span>
+                    <span>Data Structures</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer>
+    <!-- Contact -->
+    <section id="contact" class="container" style="margin-top: 4%;">
+        <div class="cta-box reveal">
+            <h2 >Ready to hire a <br><span>Backend specialist?</span></h2>
+            <p style="margin-top: 10px; opacity: 0.9;">I am available for Junior/Fresher Java roles immediately.</p>
+            <div class="cta-btns">
+                <a href="mailto:ankit871331@gmail.com" class="btn btn-primary" style="background: white; color: var(--primary); width: 100%; max-width: 320px;">ankit871331@gmail.com</a>
+                <div class="social-row">
+                    <a href="https://github.com/Ankit871331" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/ankit-0b907a2a5/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="margin-top: 4%;">
         <p>&copy; 2026 Ankit | Compiled with Love in Java Environment</p>
     </footer>
 
-    <!-- Scripts -->
     <script>
-        // --- 1. Theme Toggle Logic ---
+        // --- Theme Toggle ---
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = themeToggle.querySelector('i');
         const html = document.documentElement;
@@ -360,20 +471,20 @@
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             html.setAttribute('data-theme', newTheme);
             themeIcon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
-            localStorage.setItem('theme', newTheme);
+            localStorage.setItem('portfolio-theme', newTheme);
         });
 
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
         html.setAttribute('data-theme', savedTheme);
         themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
 
-        // --- 2. Mobile Menu Logic ---
+        // --- Mobile Menu ---
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
         const links = document.querySelectorAll('.nav-links a');
 
-        menuToggle.addEventListener('click', () => {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             navLinks.classList.toggle('show');
             menuToggle.classList.toggle('open');
         });
@@ -385,38 +496,26 @@
             });
         });
 
-        // --- 3. Scroll Reveal Logic ---
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                navLinks.classList.remove('show');
+                menuToggle.classList.remove('open');
+            }
+        });
+
+        // --- Scroll Reveal ---
         const reveal = () => {
             const reveals = document.querySelectorAll('.reveal');
             reveals.forEach(el => {
                 const windowHeight = window.innerHeight;
                 const elementTop = el.getBoundingClientRect().top;
-                const elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
+                if (elementTop < windowHeight - 50) {
                     el.classList.add('active');
                 }
             });
         };
         window.addEventListener('scroll', reveal);
-        reveal(); // Initial check
-
-        // --- 4. Active Nav Highlight ---
-        window.addEventListener('scroll', () => {
-            let current = "";
-            const sections = document.querySelectorAll("section");
-            sections.forEach((section) => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 150) {
-                    current = section.getAttribute("id");
-                }
-            });
-            links.forEach((a) => {
-                a.classList.remove("active");
-                if (a.getAttribute("href") === `#${current}`) {
-                    a.classList.add("active");
-                }
-            });
-        });
+        reveal();
     </script>
 </body>
-</html> 
+</html>
