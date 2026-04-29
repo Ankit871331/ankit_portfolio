@@ -1,7 +1,7 @@
 # 🌟 Ankit's Professional Portfolio
 
 ---
-# 🌐 Live Demo: https://portfolio-ankit-orig.netlify.app/
+## 🌐 Live Demo: https://portfolio-ankit-orig.netlify.app/
 
 <p align="center">
   <img src="https://vercel.app" />
@@ -16,7 +16,8 @@ Computer Science undergraduate with hands-on experience in Java and Spring Boot,
 
 ---
 # 💻 Tech Stack:
-
+![CSS3](https://img.shields.io/badge/java-%231572B6.svg?style=plastic&logo=css3&logoColor=white)
+![CSS3](https://img.shields.io/badge/springboot-%231572B6.svg?style=plastic&logo=css3&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=plastic&logo=css3&logoColor=white) 
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=plastic&logo=html5&logoColor=white) 
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=plastic&logo=javascript&logoColor=%23F7DF1E) 
